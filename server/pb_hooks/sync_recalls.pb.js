@@ -1,72 +1,88 @@
-cronAdd("syncRecalls", "0 */12 * * *", () => {
-  console.log("=== DEBUT SYNC ===");
+onBootstrap((e) => {
+  e.next();
 
-  const url = "https://codelabs.formation-flutter.fr/assets/rappels.json";
+  const doSync = () => {
+    console.log("=== DEBUT SYNC ===");
 
-  try {
-    const response = $http.send({
-      url: url,
-      method: "GET",
-    });
+    const url = "https://codelabs.formation-flutter.fr/assets/rappels.json";
 
-    const data = response.json;
-    const collection = $app.findCollectionByNameOrId("rappels_produits");
+    try {
+      const response = $http.send({
+        url: url,
+        method: "GET",
+      });
 
-    let created = 0;
-    let updated = 0;
-    let errors = 0;
+      const data = response.json;
+      const collection = $app.findCollectionByNameOrId("rappels_produits");
 
-    for (const item of data) {
-      try {
-        const guid = item.rappel_guid || "";
-        if (!guid) continue;
+      let created = 0;
+      let updated = 0;
+      let errors = 0;
 
-        let existing = null;
+      for (const item of data) {
         try {
-          existing = $app.findFirstRecordByData("rappels_produits", "rappel_guid", guid);
-        } catch (err) {}
+          const guid = item.rappel_guid || "";
+          if (!guid) continue;
 
-        if (existing) {
-          existing.set("gtin", item.gtin ? item.gtin.toString() : "");
-          existing.set("libelle", item.libelle || "");
-          existing.set("marque_produit", item.marque_produit || "");
-          existing.set("categorie_produit", item.categorie_produit || "");
-          existing.set("motif_rappel", item.motif_rappel || "");
-          existing.set("risques_encourus", item.risques_encourus || "");
-          existing.set("preconisations_sanitaires", item.preconisations_sanitaires || "");
-          existing.set("conduites_a_tenir", item.conduites_a_tenir_par_le_consommateur || "");
-          existing.set("zone_geographique", item.zone_geographique_de_vente || "");
-          existing.set("date_publication", item.date_publication || "");
-          existing.set("date_fin_rappel", item.date_de_fin_de_la_procedure_de_rappel || "");
-          existing.set("is_active", true);
-          $app.save(existing);
-          updated++;
-        } else {
-          const record = new Record(collection);
-          record.set("rappel_guid", guid);
-          record.set("gtin", item.gtin ? item.gtin.toString() : "");
-          record.set("libelle", item.libelle || "");
-          record.set("marque_produit", item.marque_produit || "");
-          record.set("categorie_produit", item.categorie_produit || "");
-          record.set("motif_rappel", item.motif_rappel || "");
-          record.set("risques_encourus", item.risques_encourus || "");
-          record.set("preconisations_sanitaires", item.preconisations_sanitaires || "");
-          record.set("conduites_a_tenir", item.conduites_a_tenir_par_le_consommateur || "");
-          record.set("zone_geographique", item.zone_geographique_de_vente || "");
-          record.set("date_publication", item.date_publication || "");
-          record.set("date_fin_rappel", item.date_de_fin_de_la_procedure_de_rappel || "");
-          record.set("is_active", true);
-          $app.save(record);
-          created++;
+          let existing = null;
+          try {
+            existing = $app.findFirstRecordByData("rappels_produits", "rappel_guid", guid);
+          } catch (err) {}
+
+          const fields = {
+            rappel_guid: guid,
+            gtin: item.gtin ? item.gtin.toString() : "",
+            libelle: item.libelle || "",
+            marque_produit: item.marque_produit || "",
+            categorie_produit: item.categorie_produit || "",
+            motif_rappel: item.motif_rappel || "",
+            risques_encourus: item.risques_encourus || "",
+            preconisations_sanitaires: item.preconisations_sanitaires || "",
+            conduites_a_tenir: item.conduites_a_tenir_par_le_consommateur || "",
+            zone_geographique: item.zone_geographique_de_vente || "",
+            date_publication: item.date_publication || "",
+            date_fin_rappel: item.date_de_fin_de_la_procedure_de_rappel || "",
+            distributeurs: item.distributeurs || "",
+            date_debut_commercialisation: item.date_debut_commercialisation || "",
+            date_fin_commercialisation: item.date_date_fin_commercialisation || "",
+            liens_vers_les_images: item.liens_vers_les_images || "",
+            lien_vers_affichette_pdf: item.lien_vers_affichette_pdf || "",
+            description_complementaire_risque: item.description_complementaire_risque || "",
+            informations_complementaires: item.informations_complementaires || "",
+            is_active: true,
+          };
+
+          if (existing) {
+            for (const key in fields) {
+              existing.set(key, fields[key]);
+            }
+            $app.save(existing);
+            updated++;
+          } else {
+            const record = new Record(collection);
+            for (const key in fields) {
+              record.set(key, fields[key]);
+            }
+            $app.save(record);
+            created++;
+          }
+        } catch (itemError) {
+          errors++;
+          console.log("ERREUR sur item: " + itemError);
         }
-      } catch (itemError) {
-        errors++;
-        console.log("ERREUR sur item: " + itemError);
       }
-    }
 
-    console.log("=== SYNC TERMINEE === Crees: " + created + " | Maj: " + updated + " | Erreurs: " + errors);
-  } catch (error) {
-    console.log("=== ERREUR GLOBALE === " + error);
-  }
+      console.log("=== SYNC TERMINEE === Crees: " + created + " | Maj: " + updated + " | Erreurs: " + errors);
+    } catch (error) {
+      console.log("=== ERREUR GLOBALE === " + error);
+    }
+  };
+
+  // Sync immediate au demarrage
+  doSync();
+
+  // Sync toutes les 12h ensuite
+  $app.cron().add("syncRecalls", "0 */12 * * *", () => {
+    doSync();
+  });
 });
