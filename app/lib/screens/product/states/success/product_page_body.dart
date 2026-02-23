@@ -4,6 +4,7 @@ import 'package:formation_flutter/model/product.dart';
 import 'package:formation_flutter/res/app_icons.dart';
 import 'package:formation_flutter/screens/product/product_fetcher.dart';
 import 'package:formation_flutter/screens/product/states/success/product_header.dart';
+import 'package:formation_flutter/screens/product/states/success/recall_banner.dart';
 import 'package:formation_flutter/screens/product/states/success/tabs/product_tab0.dart';
 import 'package:formation_flutter/screens/product/states/success/tabs/product_tab1.dart';
 import 'package:formation_flutter/screens/product/states/success/tabs/product_tab2.dart';
@@ -40,6 +41,7 @@ class _ProductPageBodyState extends State<ProductPageBody> {
             child: CustomScrollView(
               slivers: <Widget>[
                 ProductPageHeader(),
+                SliverToBoxAdapter(child: const RecallBanner()),
                 SliverPadding(
                   padding: EdgeInsetsDirectional.only(top: 10.0),
                   sliver: SliverFillRemaining(

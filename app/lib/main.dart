@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:formation_flutter/l10n/app_localizations.dart';
+import 'package:formation_flutter/model/recall.dart';
 import 'package:formation_flutter/res/app_colors.dart';
 import 'package:formation_flutter/res/app_theme_extension.dart';
 import 'package:formation_flutter/screens/homepage/homepage_screen.dart';
 import 'package:formation_flutter/screens/product/product_page.dart';
+import 'package:formation_flutter/screens/recall/recall_detail_screen.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
@@ -17,6 +19,11 @@ GoRouter _router = GoRouter(
       path: '/product',
       builder: (_, GoRouterState state) =>
           ProductPage(barcode: state.extra as String),
+    ),
+    GoRoute(
+      path: '/recall',
+      builder: (_, GoRouterState state) =>
+          RecallDetailScreen(recall: state.extra as Recall),
     ),
   ],
 );

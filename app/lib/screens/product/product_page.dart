@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:formation_flutter/res/app_icons.dart';
 import 'package:formation_flutter/screens/product/product_fetcher.dart';
+import 'package:formation_flutter/screens/product/recall_fetcher.dart';
 import 'package:formation_flutter/screens/product/states/empty/product_page_empty.dart';
-import 'package:formation_flutter/screens/product/states/error/product_page_error.dart';
 import 'package:formation_flutter/screens/product/states/success/product_page_body.dart';
+import 'package:formation_flutter/screens/recall/recall_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProductPage extends StatelessWidget {
@@ -17,21 +18,57 @@ class ProductPage extends StatelessWidget {
     final MaterialLocalizations materialLocalizations =
         MaterialLocalizations.of(context);
 
-    return ChangeNotifierProvider<ProductFetcher>(
-      create: (_) => ProductFetcher(barcode: barcode),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ProductFetcher>(
+          create: (_) => ProductFetcher(barcode: barcode),
+        ),
+        ChangeNotifierProvider<RecallFetcher>(
+          create: (_) => RecallFetcher(barcode: barcode),
+        ),
+      ],
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
           children: [
-            Consumer<ProductFetcher>(
-              builder: (BuildContext context, ProductFetcher notifier, _) {
-                return switch (notifier.state) {
-                  ProductFetcherLoading() => const ProductPageEmpty(),
-                  ProductFetcherError(error: var err) => ProductPageError(
-                    error: err,
+            Consumer2<ProductFetcher, RecallFetcher>(
+              builder: (BuildContext context, ProductFetcher productNotifier,
+                  RecallFetcher recallNotifier, _) {
+                final productState = productNotifier.state;
+                final recallState = recallNotifier.state;
+
+                // Loading
+                if (productState is ProductFetcherLoading) {
+                  return const ProductPageEmpty();
+                }
+
+                // Product found -> show product page with recall banner
+                if (productState is ProductFetcherSuccess) {
+                  return ProductPageBody();
+                }
+
+                // Product NOT found but recall exists -> show recall directly
+                if (recallState is RecallFetcherSuccess &&
+                    recallState.hasRecalls) {
+                  return RecallDetailScreen(recall: recallState.recalls.first);
+                }
+
+                // Recall still loading -> wait
+                if (recallState is RecallFetcherLoading) {
+                  return const ProductPageEmpty();
+                }
+
+                // Nothing found -> show error
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Text(
+                      'Produit non trouv\u00e9',
+                      style: TextStyle(fontSize: 16.0, color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  ProductFetcherSuccess() => ProductPageBody(),
-                };
+                );
               },
             ),
             PositionedDirectional(
