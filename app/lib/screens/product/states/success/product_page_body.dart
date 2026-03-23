@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:formation_flutter/l10n/app_localizations.dart';
 import 'package:formation_flutter/model/product.dart';
 import 'package:formation_flutter/res/app_icons.dart';
-import 'package:formation_flutter/screens/product/product_fetcher.dart';
 import 'package:formation_flutter/screens/product/states/success/product_header.dart';
 import 'package:formation_flutter/screens/product/states/success/recall_banner.dart';
 import 'package:formation_flutter/screens/product/states/success/tabs/product_tab0.dart';
@@ -12,7 +11,9 @@ import 'package:formation_flutter/screens/product/states/success/tabs/product_ta
 import 'package:provider/provider.dart';
 
 class ProductPageBody extends StatefulWidget {
-  const ProductPageBody({super.key});
+  const ProductPageBody({super.key, required this.product});
+
+  final Product product;
 
   @override
   State<ProductPageBody> createState() => _ProductPageBodyState();
@@ -32,9 +33,7 @@ class _ProductPageBodyState extends State<ProductPageBody> {
     final AppLocalizations localizations = AppLocalizations.of(context)!;
 
     return Provider<Product>(
-      create: (_) =>
-          (context.read<ProductFetcher>().state as ProductFetcherSuccess)
-              .product,
+      create: (_) => widget.product,
       child: Column(
         children: [
           Expanded(

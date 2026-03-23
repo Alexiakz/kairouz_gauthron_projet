@@ -28,10 +28,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get greenscore => 'Green-Score';
 
   @override
-  String get product_quantity => 'Quantité :';
+  String get product_quantity => 'Quantité :';
 
   @override
-  String get product_countries => 'Vendu en :';
+  String get product_countries => 'Vendu en :';
 
   @override
   String get product_vegan => 'Végan';
@@ -52,7 +52,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get product_tab_nutrition_facts => 'Tableau';
 
   @override
-  String get product_nutrition_facts_per_100g => 'Pour 100 g';
+  String get product_nutrition_facts_per_100g => 'Pour 100 g';
 
   @override
   String get product_nutrition_facts_per_serving => 'Par portion';
@@ -84,4 +84,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get product_nutrition_facts_sodium => 'Sodium';
+
+  @override
+  String get product_tab_recalls => 'Rappels';
 }

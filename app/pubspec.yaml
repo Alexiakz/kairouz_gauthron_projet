@@ -23,6 +23,8 @@ dependencies:
   go_router: 17.1.0
   pocketbase: ^0.23.2
   url_launcher: ^6.2.5
+  mobile_scanner: ^6.0.2
+  share_plus: ^9.0.0
 
 dev_dependencies:
   flutter_test:

@@ -133,13 +133,13 @@ abstract class AppLocalizations {
   /// No description provided for @product_quantity.
   ///
   /// In fr, this message translates to:
-  /// **'Quantité :'**
+  /// **'Quantité :'**
   String get product_quantity;
 
   /// No description provided for @product_countries.
   ///
   /// In fr, this message translates to:
-  /// **'Vendu en :'**
+  /// **'Vendu en :'**
   String get product_countries;
 
   /// No description provided for @product_vegan.
@@ -181,7 +181,7 @@ abstract class AppLocalizations {
   /// No description provided for @product_nutrition_facts_per_100g.
   ///
   /// In fr, this message translates to:
-  /// **'Pour 100 g'**
+  /// **'Pour 100 g'**
   String get product_nutrition_facts_per_100g;
 
   /// No description provided for @product_nutrition_facts_per_serving.
@@ -243,6 +243,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Sodium'**
   String get product_nutrition_facts_sodium;
+
+  /// No description provided for @product_tab_recalls.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rappels'**
+  String get product_tab_recalls;
 }
 
 class _AppLocalizationsDelegate

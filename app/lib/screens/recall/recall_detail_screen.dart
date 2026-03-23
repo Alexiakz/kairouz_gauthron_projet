@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formation_flutter/model/recall.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RecallDetailScreen extends StatelessWidget {
@@ -15,6 +16,11 @@ class RecallDetailScreen extends StatelessWidget {
         title: const Text('D\u00e9tail du rappel'),
         centerTitle: false,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.share),
+            tooltip: 'Partager',
+            onPressed: () => _share(),
+          ),
           if (recall.lienVersAffichettePdf.isNotEmpty)
             IconButton(
               icon: const Icon(Icons.picture_as_pdf),
@@ -101,7 +107,9 @@ class RecallDetailScreen extends StatelessWidget {
             // Commercialization dates
             _SectionTitle(title: 'Dates de commercialisation'),
             const SizedBox(height: 8.0),
-            _InfoRow(label: 'D\u00e9but', value: recall.dateDebutCommercialisation),
+            _InfoRow(
+                label: 'D\u00e9but',
+                value: recall.dateDebutCommercialisation),
             _InfoRow(label: 'Fin', value: recall.dateFinCommercialisation),
 
             const SizedBox(height: 16.0),
@@ -114,7 +122,8 @@ class RecallDetailScreen extends StatelessWidget {
             if (recall.datePublication != null)
               _InfoRow(
                 label: 'Publication',
-                value: DateFormat('dd/MM/yyyy').format(recall.datePublication!),
+                value:
+                    DateFormat('dd/MM/yyyy').format(recall.datePublication!),
               ),
             if (recall.dateFinRappel != null)
               _InfoRow(
@@ -130,7 +139,8 @@ class RecallDetailScreen extends StatelessWidget {
             if (recall.distributeurs.isNotEmpty) ...[
               _SectionTitle(title: 'Distributeurs'),
               const SizedBox(height: 8.0),
-              Text(recall.distributeurs, style: const TextStyle(fontSize: 14.0)),
+              Text(recall.distributeurs,
+                  style: const TextStyle(fontSize: 14.0)),
               const SizedBox(height: 16.0),
               const Divider(),
               const SizedBox(height: 16.0),
@@ -179,7 +189,8 @@ class RecallDetailScreen extends StatelessWidget {
               const SizedBox(height: 16.0),
               const Divider(),
               const SizedBox(height: 16.0),
-              _SectionTitle(title: 'Description compl\u00e9mentaire du risque'),
+              _SectionTitle(
+                  title: 'Description compl\u00e9mentaire du risque'),
               const SizedBox(height: 8.0),
               Text(
                 recall.descriptionComplementaireRisque,
@@ -250,6 +261,21 @@ class RecallDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _share() {
+    final buffer = StringBuffer();
+    buffer.writeln('Rappel produit : ${recall.libelle}');
+    if (recall.marqueProduit.isNotEmpty) {
+      buffer.writeln('Marque : ${recall.marqueProduit}');
+    }
+    if (recall.motifRappel.isNotEmpty) {
+      buffer.writeln('Motif : ${recall.motifRappel}');
+    }
+    if (recall.lienVersAffichettePdf.isNotEmpty) {
+      buffer.writeln('\nFiche officielle : ${recall.lienVersAffichettePdf}');
+    }
+    Share.share(buffer.toString());
   }
 
   Future<void> _openUrl(String url) async {

@@ -5,15 +5,15 @@
   "nova_group": "Groupe NOVA",
   "nutriscore": "Nutri-Score",
   "greenscore": "Green-Score",
-  "product_quantity": "Quantité :",
-  "product_countries": "Vendu en :",
+  "product_quantity": "Quantité :",
+  "product_countries": "Vendu en :",
   "product_vegan": "Végan",
   "product_vegetarian": "Végétarien",
   "product_tab_summary": "Fiche",
   "product_tab_properties": "Caractéristiques",
   "product_tab_nutrition": "Nutrition",
   "product_tab_nutrition_facts": "Tableau",
-  "product_nutrition_facts_per_100g": "Pour 100 g",
+  "product_nutrition_facts_per_100g": "Pour 100 g",
   "product_nutrition_facts_per_serving": "Par portion",
   "product_nutrition_facts_energy": "Énergie",
   "product_nutrition_facts_fat": "Matières grasses",
@@ -23,5 +23,6 @@
   "product_nutrition_facts_fiber": "Fibres alimentaires",
   "product_nutrition_facts_proteins": "Protéines",
   "product_nutrition_facts_salt": "Sel",
-  "product_nutrition_facts_sodium": "Sodium"
+  "product_nutrition_facts_sodium": "Sodium",
+  "product_tab_recalls": "Rappels"
 }

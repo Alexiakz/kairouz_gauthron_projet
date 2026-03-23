@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:formation_flutter/api/pocketbase_api.dart';
 import 'package:formation_flutter/l10n/app_localizations.dart';
 import 'package:formation_flutter/model/recall.dart';
 import 'package:formation_flutter/res/app_colors.dart';
 import 'package:formation_flutter/res/app_theme_extension.dart';
+import 'package:formation_flutter/screens/auth/login_screen.dart';
+import 'package:formation_flutter/screens/favorites/favorites_screen.dart';
 import 'package:formation_flutter/screens/homepage/homepage_screen.dart';
 import 'package:formation_flutter/screens/product/product_page.dart';
 import 'package:formation_flutter/screens/recall/recall_detail_screen.dart';
@@ -13,8 +16,17 @@ void main() {
 }
 
 GoRouter _router = GoRouter(
+  redirect: (BuildContext context, GoRouterState state) {
+    final isAuthenticated = PocketBaseAPI().isAuthenticated;
+    final isOnLogin = state.matchedLocation == '/login';
+
+    if (!isAuthenticated && !isOnLogin) return '/login';
+    if (isAuthenticated && isOnLogin) return '/';
+    return null;
+  },
   routes: [
-    GoRoute(path: '/', builder: (_, _) => HomePage()),
+    GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
+    GoRoute(path: '/', builder: (_, _) => const HomePage()),
     GoRoute(
       path: '/product',
       builder: (_, GoRouterState state) =>
@@ -24,6 +36,10 @@ GoRouter _router = GoRouter(
       path: '/recall',
       builder: (_, GoRouterState state) =>
           RecallDetailScreen(recall: state.extra as Recall),
+    ),
+    GoRoute(
+      path: '/favorites',
+      builder: (_, _) => const FavoritesScreen(),
     ),
   ],
 );

@@ -114,7 +114,10 @@ class _Nutriscore extends StatelessWidget {
           style: context.theme.title3,
         ),
         const SizedBox(height: 5.0),
-        Image.asset(_findAssetName(), height: 42.0),
+        if (nutriscore != ProductNutriScore.unknown)
+          Image.asset(_findAssetName(), height: 42.0)
+        else
+          const Text('Non disponible', style: TextStyle(color: AppColors.grey2, fontSize: 13.0)),
       ],
     );
   }
@@ -155,12 +158,13 @@ class _NovaGroup extends StatelessWidget {
   String _findLabel() {
     return switch (novaScore) {
       ProductNovaScore.group1 =>
-        'Aliments non transformés ou transformés minimalement',
-      ProductNovaScore.group2 => 'Ingrédients culinaires transformés',
-      ProductNovaScore.group3 => 'Aliments transformés',
+        'Aliments non transform\u00e9s ou transform\u00e9s minimalement',
+      ProductNovaScore.group2 =>
+        'Ingr\u00e9dients culinaires transform\u00e9s',
+      ProductNovaScore.group3 => 'Aliments transform\u00e9s',
       ProductNovaScore.group4 =>
-        'Produits alimentaires et boissons ultra-transformés',
-      ProductNovaScore.unknown => 'Score non calculé',
+        'Produits alimentaires et boissons ultra-transform\u00e9s',
+      ProductNovaScore.unknown => 'Score non calcul\u00e9',
     };
   }
 }
@@ -225,14 +229,16 @@ class _GreenScore extends StatelessWidget {
 
   String _findLabel() {
     return switch (greenScore) {
-      ProductGreenScore.APlus => 'Très faible impact environnemental',
-      ProductGreenScore.A => 'Très faible impact environnemental',
+      ProductGreenScore.APlus => 'Tr\u00e8s faible impact environnemental',
+      ProductGreenScore.A => 'Tr\u00e8s faible impact environnemental',
       ProductGreenScore.B => 'Faible impact environnemental',
-      ProductGreenScore.C => "Impact modéré sur l'environnement",
-      ProductGreenScore.D => 'Impact environnemental élevé',
-      ProductGreenScore.E => 'Impact environnemental très élevé',
-      ProductGreenScore.F => 'Impact environnemental très élevé',
-      ProductGreenScore.unknown => 'Score non calculé',
+      ProductGreenScore.C => "Impact mod\u00e9r\u00e9 sur l'environnement",
+      ProductGreenScore.D => 'Impact environnemental \u00e9lev\u00e9',
+      ProductGreenScore.E =>
+        'Impact environnemental tr\u00e8s \u00e9lev\u00e9',
+      ProductGreenScore.F =>
+        'Impact environnemental tr\u00e8s \u00e9lev\u00e9',
+      ProductGreenScore.unknown => 'Score non calcul\u00e9',
     };
   }
 }
