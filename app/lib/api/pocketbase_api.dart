@@ -58,14 +58,25 @@ class PocketBaseAPI {
     String? productName,
     String? picture,
     String? brands,
+    String? nutriScore,
   }) async {
-    await _pb.collection('historique').create(body: {
+    final base = {
       'user': currentUserId,
       'barcode': barcode,
       'product_name': productName ?? '',
       'picture': picture ?? '',
       'brands': brands ?? '',
-    });
+    };
+
+    try {
+      await _pb.collection('historique').create(body: {
+        ...base,
+        'nutri_score': nutriScore ?? '',
+      });
+    } on ClientException {
+      // Le champ nutri_score n'existe peut-être pas encore dans PocketBase
+      await _pb.collection('historique').create(body: base);
+    }
   }
 
   Future<List<RecordModel>> getHistory() async {
@@ -83,14 +94,24 @@ class PocketBaseAPI {
     String? productName,
     String? picture,
     String? brands,
+    String? nutriScore,
   }) async {
-    await _pb.collection('favoris').create(body: {
+    final base = {
       'user': currentUserId,
       'barcode': barcode,
       'product_name': productName ?? '',
       'picture': picture ?? '',
       'brands': brands ?? '',
-    });
+    };
+
+    try {
+      await _pb.collection('favoris').create(body: {
+        ...base,
+        'nutri_score': nutriScore ?? '',
+      });
+    } on ClientException {
+      await _pb.collection('favoris').create(body: base);
+    }
   }
 
   Future<void> removeFavorite(String barcode) async {

@@ -128,6 +128,13 @@ class ProductNameHeader extends StatelessWidget {
                 product.brands?.join(', ') ?? '-',
                 style: context.theme.title2,
               ),
+              if (product.altName != null && product.altName!.isNotEmpty) ...[
+                const SizedBox(height: 3.0),
+                Text(
+                  product.altName!,
+                  style: context.theme.title2,
+                ),
+              ],
               const SizedBox(height: 8.0),
             ],
           ),

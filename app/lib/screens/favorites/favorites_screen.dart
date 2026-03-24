@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formation_flutter/api/pocketbase_api.dart';
 import 'package:formation_flutter/res/app_colors.dart';
+import 'package:formation_flutter/screens/shared/product_card.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pocketbase/pocketbase.dart';
 
@@ -29,6 +30,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFAFAFA),
       appBar: AppBar(
         title: const Text('Mes favoris'),
         centerTitle: false,
@@ -72,14 +74,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               itemCount: favorites.length,
-              separatorBuilder: (_, __) => const Divider(height: 1.0),
+              separatorBuilder: (_, __) => const SizedBox(height: 8.0),
               itemBuilder: (context, index) {
                 final item = favorites[index];
-                return _ProductListTile(
-                  barcode: item.getStringValue('barcode'),
+                return ProductCard(
+                  picture: item.getStringValue('picture'),
                   productName: item.getStringValue('product_name'),
                   brands: item.getStringValue('brands'),
-                  picture: item.getStringValue('picture'),
+                  barcode: item.getStringValue('barcode'),
+                  nutriScore: item.getStringValue('nutri_score'),
                   onTap: () async {
                     await context.push(
                       '/product',
@@ -93,69 +96,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           );
         },
       ),
-    );
-  }
-}
-
-class _ProductListTile extends StatelessWidget {
-  const _ProductListTile({
-    required this.barcode,
-    required this.productName,
-    required this.brands,
-    required this.picture,
-    this.onTap,
-  });
-
-  final String barcode;
-  final String productName;
-  final String brands;
-  final String picture;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      leading: picture.isNotEmpty
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                picture,
-                width: 50.0,
-                height: 50.0,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
-                  width: 50.0,
-                  height: 50.0,
-                  color: AppColors.grey1,
-                  child: const Icon(Icons.image_not_supported, size: 24.0),
-                ),
-              ),
-            )
-          : Container(
-              width: 50.0,
-              height: 50.0,
-              decoration: BoxDecoration(
-                color: AppColors.grey1,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: const Icon(Icons.lunch_dining, color: AppColors.grey2),
-            ),
-      title: Text(
-        productName.isNotEmpty ? productName : barcode,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontWeight: FontWeight.w600),
-      ),
-      subtitle: brands.isNotEmpty
-          ? Text(
-              brands,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: AppColors.grey2),
-            )
-          : null,
-      trailing: const Icon(Icons.chevron_right, color: AppColors.grey2),
     );
   }
 }

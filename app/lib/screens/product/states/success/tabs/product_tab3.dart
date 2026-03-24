@@ -132,7 +132,7 @@ class ProductTab3 extends StatelessWidget {
 
     String formatField(dynamic field, String unit) {
       if (field == null) {
-        return '-';
+        return '?';
       } else if (field is num) {
         return '${numberFormat.format(field)} $unit';
       } else {

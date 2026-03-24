@@ -52,6 +52,7 @@ class _ProductPageBodyState extends State<ProductPageBody> {
               ],
             ),
           ),
+          const Divider(height: 1.0),
           BottomNavigationBar(
             currentIndex: _tab.index,
             onTap: (int position) => setState(

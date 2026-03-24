@@ -32,7 +32,7 @@ class _RecallAlertBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: recalls
@@ -44,47 +44,30 @@ class _RecallAlertBanner extends StatelessWidget {
                   margin: recalls.length > 1
                       ? const EdgeInsets.only(bottom: 8.0)
                       : EdgeInsets.zero,
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 14.0,
+                  ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFF0000).withValues(alpha: 0.36),
-                    borderRadius: BorderRadius.circular(12.0),
+                    color: const Color(0xFFFFC5C5),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: Row(
                     children: [
-                      const Icon(
-                        Icons.warning_amber_rounded,
-                        color: Color(0xFFA60000),
-                        size: 24.0,
-                      ),
-                      const SizedBox(width: 8.0),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Produit rappel\u00e9',
-                              style: TextStyle(
-                                color: const Color(0xFFA60000),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.0,
-                              ),
-                            ),
-                            const SizedBox(height: 4.0),
-                            Text(
-                              recall.motifRappel,
-                              style: TextStyle(
-                                color: const Color(0xFFA60000),
-                                fontSize: 12.0,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                        child: Text(
+                          'Ce produit fait l\'objet d\'un rappel produit',
+                          style: TextStyle(
+                            color: const Color(0xFF333333),
+                            fontSize: 14.0,
+                          ),
                         ),
                       ),
+                      const SizedBox(width: 8.0),
                       const Icon(
-                        Icons.chevron_right,
-                        color: Color(0xFFA60000),
+                        Icons.arrow_forward,
+                        color: Color(0xFF333333),
+                        size: 22.0,
                       ),
                     ],
                   ),

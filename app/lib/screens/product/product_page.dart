@@ -47,6 +47,7 @@ class _ProductPageState extends State<ProductPage> {
           productName: product?.name,
           picture: product?.picture,
           brands: product?.brands?.join(', '),
+          nutriScore: product?.nutriScore?.name,
         );
       }
       if (mounted) setState(() => _isFavorite = !_isFavorite);
@@ -62,6 +63,7 @@ class _ProductPageState extends State<ProductPage> {
         productName: product.name,
         picture: product.picture,
         brands: product.brands?.join(', '),
+        nutriScore: product.nutriScore?.name,
       );
     } catch (_) {}
   }

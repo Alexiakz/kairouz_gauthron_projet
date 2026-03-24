@@ -127,25 +127,25 @@ abstract class AppLocalizations {
   /// No description provided for @greenscore.
   ///
   /// In fr, this message translates to:
-  /// **'Green-Score'**
+  /// **'EcoScore'**
   String get greenscore;
 
   /// No description provided for @product_quantity.
   ///
   /// In fr, this message translates to:
-  /// **'Quantité :'**
+  /// **'Quantité'**
   String get product_quantity;
 
   /// No description provided for @product_countries.
   ///
   /// In fr, this message translates to:
-  /// **'Vendu en :'**
+  /// **'Vendu'**
   String get product_countries;
 
   /// No description provided for @product_vegan.
   ///
   /// In fr, this message translates to:
-  /// **'Végan'**
+  /// **'Végétalien'**
   String get product_vegan;
 
   /// No description provided for @product_vegetarian.
@@ -187,7 +187,7 @@ abstract class AppLocalizations {
   /// No description provided for @product_nutrition_facts_per_serving.
   ///
   /// In fr, this message translates to:
-  /// **'Par portion'**
+  /// **'Par part'**
   String get product_nutrition_facts_per_serving;
 
   /// No description provided for @product_nutrition_facts_energy.
